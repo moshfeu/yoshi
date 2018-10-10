@@ -12,7 +12,7 @@ const {
   shouldRunStylelint,
   watchMode,
 } = require('yoshi-helpers');
-const { wrapErrorsWithUserLandError } = require('../UserLandError');
+const { printAndExitOnErrors } = require('../error-handler');
 
 const { hooks } = require('yoshi-config');
 
@@ -71,7 +71,7 @@ module.exports = runner.command(async tasks => {
   function runStyleLint(pattern) {
     console.log(`running style lint on ${pattern}`);
 
-    return wrapErrorsWithUserLandError(() =>
+    return printAndExitOnErrors(() =>
       stylelint({ pattern, options: { formatter: 'string' } }),
     );
   }
@@ -80,7 +80,7 @@ module.exports = runner.command(async tasks => {
     const tsconfigFilePath = path.resolve('tsconfig.json');
     const tslintFilePath = path.resolve('tslint.json');
 
-    return wrapErrorsWithUserLandError(async () => {
+    return printAndExitOnErrors(async () => {
       if (prelint) {
         await execa.shell(prelint, { stdio: 'inherit' });
       }
@@ -95,7 +95,7 @@ module.exports = runner.command(async tasks => {
   }
 
   async function runEsLint(pattern) {
-    return wrapErrorsWithUserLandError(async () => {
+    return printAndExitOnErrors(async () => {
       if (prelint) {
         await execa.shell(prelint, { stdio: 'inherit' });
       }

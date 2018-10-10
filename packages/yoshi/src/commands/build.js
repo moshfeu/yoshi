@@ -24,7 +24,7 @@ const {
   shouldRunLess,
   shouldRunSass,
 } = require('yoshi-helpers');
-const { wrapErrorsWithUserLandError } = require('../UserLandError');
+const { printAndExitOnErrors } = require('../error-handler');
 
 const runner = createRunner({
   logger: new LoggerPlugin(),
@@ -63,13 +63,13 @@ module.exports = runner.command(
     const esTarget = shouldExportModule();
 
     await Promise.all([
-      wrapErrorsWithUserLandError(() =>
+      printAndExitOnErrors(() =>
         transpileJavascript({ esTarget }).then(() => transpileNgAnnotate()),
       ),
       ...transpileCss({ esTarget }),
       ...copyAssets({ esTarget }),
       bundle(),
-      wrapErrorsWithUserLandError(() =>
+      printAndExitOnErrors(() =>
         wixPetriSpecs(
           { config: petriSpecsConfig },
           { title: 'petri-specs', log: false },
@@ -97,7 +97,7 @@ module.exports = runner.command(
       };
 
       const webpackProduction = () => {
-        return wrapErrorsWithUserLandError(() =>
+        return printAndExitOnErrors(() =>
           webpack(
             {
               ...defaultOptions,
@@ -115,7 +115,7 @@ module.exports = runner.command(
       };
 
       const webpackDebug = () => {
-        return wrapErrorsWithUserLandError(() =>
+        return printAndExitOnErrors(() =>
           webpack(
             {
               ...defaultOptions,
@@ -189,7 +189,7 @@ module.exports = runner.command(
     }
 
     function transpileSass({ esTarget } = {}) {
-      return wrapErrorsWithUserLandError(() =>
+      return printAndExitOnErrors(() =>
         sass({
           pattern: globs.scss,
           target: globs.dist({ esTarget }),
@@ -201,7 +201,7 @@ module.exports = runner.command(
     }
 
     function transpileLess({ esTarget } = {}) {
-      return wrapErrorsWithUserLandError(() =>
+      return printAndExitOnErrors(() =>
         less({
           pattern: globs.less,
           target: globs.dist({ esTarget }),

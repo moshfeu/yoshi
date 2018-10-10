@@ -21,10 +21,7 @@ const {
   hasBundleInStaticsDir,
 } = require('yoshi-helpers');
 const protractor = require('../../src/tasks/protractor');
-const {
-  wrapErrorsWithUserLandError,
-  UserLandError,
-} = require('../UserLandError');
+const { printAndExitOnErrors } = require('../error-handler');
 
 const runner = createRunner({
   logger: new LoggerPlugin(),
@@ -127,7 +124,7 @@ module.exports = runner.command(
 
         await runMocha(); // fail silently
       } else {
-        await wrapErrorsWithUserLandError(() =>
+        await printAndExitOnErrors(() =>
           runMocha(error => {
             throw `mocha failed with status code "${error.code}"`;
           }),
@@ -155,9 +152,8 @@ module.exports = runner.command(
         await execa('node', jasmineArgs, { stdio: 'inherit' });
       } catch (error) {
         if (!shouldWatch) {
-          throw new UserLandError(
-            `jasmine failed with status code "${error.code}"`,
-          );
+          console.error(`jasmine failed with status code "${error.code}"`);
+          process.exit(error.code);
         }
       }
 
@@ -212,12 +208,13 @@ module.exports = runner.command(
       try {
         await execa('node', jestCliOptions, { stdio: 'inherit' });
       } catch (error) {
-        throw new UserLandError(`jest failed with status code "${error.code}"`);
+        console.error(`jest failed with status code "${error.code}"`);
+        process.exit(error.code);
       }
     }
 
     if (cliArgs.karma) {
-      await wrapErrorsWithUserLandError(async () => {
+      await printAndExitOnErrors(async () => {
         await webpack({
           configPath: require.resolve('../../config/webpack.config.specs'),
           watch: shouldWatch,
