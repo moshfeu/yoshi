@@ -1,9 +1,6 @@
 const dargs = require('dargs');
 const crossSpawn = require('cross-spawn');
-const {
-  UserLandError,
-  wrapErrorsWithUserLandError,
-} = require('../../UserLandError');
+const { printAndExitOnErrors } = require('../../error-handler');
 
 const protractor = async (debugPort, debugBrkPort) => {
   let protractorBin;
@@ -19,18 +16,20 @@ const protractor = async (debugPort, debugBrkPort) => {
     webdriverBin = require.resolve('protractor/bin/webdriver-manager');
   } catch (error) {
     if (error.code === 'MODULE_NOT_FOUND') {
-      throw new UserLandError(
+      console.error(
         'Running this requires `protractor` >=5. Please install it and re-run.',
       );
+      process.exit(1);
     }
 
     throw error;
   }
 
   if (Number(protractorVersion) < 5) {
-    throw new UserLandError(
+    console.error(
       `The installed version of \`protractor\` is not compatible (expected: >= 5, actual: ${protractorVersion}).`,
     );
+    process.exit(1);
   }
 
   // Only install specific version of chrome driver in CI, install latest locally
@@ -61,7 +60,7 @@ const protractor = async (debugPort, debugBrkPort) => {
     protractorArgs.unshift(`--inspect=${debugPort}`);
   }
 
-  return wrapErrorsWithUserLandError(() => {
+  return printAndExitOnErrors(() => {
     return new Promise((resolve, reject) => {
       const webDriverUpdate = crossSpawn(
         webdriverBin,
