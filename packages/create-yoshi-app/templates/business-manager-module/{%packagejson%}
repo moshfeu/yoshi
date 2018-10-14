@@ -31,11 +31,12 @@
     "react-module-container": "~1.0.0",
     "react-test-renderer": "15.5.4",
     "yoshi": "^3.0.0",
-    "yoshi-style-dependencies": "^3.0.0"
+    "yoshi-style-dependencies": "^3.0.0",
+    "fedops-grafana-api": "^2.0.6",
   },
   "dependencies": {
+    "fedops-logger": "^3.0.28",
     "axios": "^0.16.2",
-    "fedops-logger": "^3.0.5",
     "i18next": "~8.4.0",
     "i18next-xhr-backend": "~1.4.0",
     "react-i18next": "~4.8.0",

@@ -30,9 +30,11 @@
     "wix-bootstrap-ng": "latest",
     "wix-bootstrap-renderer": "latest",
     "wix-express-csrf": "latest",
-    "wix-express-require-https": "latest"
+    "wix-express-require-https": "latest",
+    "fedops-logger": "^3.0.28"
   },
   "devDependencies": {
+    "fedops-grafana-api": "^2.0.6",
     "react-test-renderer": "~15.6.0",
     "enzyme": "~2.9.0",
     "husky": "~0.14.0",

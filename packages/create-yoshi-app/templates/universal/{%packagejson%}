@@ -28,9 +28,11 @@
     "wix-config-emitter": "latest",
     "wix-req-options": "latest",
     "yoshi": "^3.0.0",
-    "yoshi-style-dependencies": "^3.0.0"
+    "yoshi-style-dependencies": "^3.0.0",
+    "fedops-logger": "^3.0.28"
   },
-  "dependencies": {
+  "devDependencies": {
+    "fedops-grafana-api": "^2.0.6",
     "axios": "~0.16.0",
     "ejs": "~2.5.0",
     "express": "~4.15.0",

@@ -26,6 +26,7 @@
     "storybook": "start-storybook -p 6006"
   },
   "devDependencies": {
+    "fedops-grafana-api": "^2.0.6",
     "@storybook/react": "^4.0.0-alpha.0",
     "@storybook/storybook-deployer": "~2.0.0",
     "@types/chai": "~4.0.0",

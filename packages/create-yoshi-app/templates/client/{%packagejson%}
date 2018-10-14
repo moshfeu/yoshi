@@ -26,9 +26,11 @@
     "react-test-renderer": "~15.6.0",
     "velocity": "~0.7.0",
     "yoshi": "^3.0.0",
-    "yoshi-style-dependencies": "^3.0.0"
+    "yoshi-style-dependencies": "^3.0.0",
+    "fedops-grafana-api": "^2.0.6",
   },
   "dependencies": {
+    "fedops-logger": "^3.0.28",
     "axios": "~0.16.0",
     "i18next": "^11.6.0",
     "prop-types": "~15.6.0",
